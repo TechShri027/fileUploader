@@ -30,7 +30,7 @@ try {
     if(file){
         result=await new Promise((resolve, reject)=>{
             const stream=cloudinary.uploader.upload_stream(
-                 {folder: "profilepic"},
+                 {folder: "profilePic"},
                  (error, result)=>{
                     if(error) return reject (error);
                     resolve(result)
@@ -40,13 +40,15 @@ try {
         })
     }
 
-    const newUser=new User({userName, email, password: hashedPassword, dob, profilepic: result.secure_url || ""})
+    const newUser=new User({userName, email, password: hashedPassword, dob, profilePic: result.secure_url || ""})
 
     await newUser.save()
 
      res.status(201).json({ msg: "User created successfully" });
+     console.log("File received:", req.file);
+
 } catch (error) {
-     console.error(err);
+     console.error(error);
     res.status(500).json({ msg: "Server error" });
 }
 }
